@@ -12,7 +12,7 @@ Syntax
 
 There are two elements to the syntax: metadata headers and tags
 
-###Metadata  
+####Metadata  
 Metadata must appear as a header at the top of any cInt file.  This follows the format:
 
 `<respondent>: respondent 00`   
@@ -22,7 +22,7 @@ Metadata must appear as a header at the top of any cInt file.  This follows the 
 This metadata allows the search function to attribute codes and content to a given respondent/interview.
 
 
-###Tags
+####Tags
 Inline tags appear in double brackets, followed immediately by the associated interview content in curly brackets.  Multiple tags can be assigned to a single passage if separated by a comma.  For instance:
 
 `[[tag one, tag two]]{Interview content associated with tag one and tag two.}`
