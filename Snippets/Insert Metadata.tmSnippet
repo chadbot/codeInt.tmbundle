@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string># Interview Metadata
+&lt;respondent&gt;: resondentName
+&lt;interview&gt;: interviewNumber
+&lt;date&gt;: `date +"%Y-%m-%d"`
+
+# Interview Content
+
+$0</string>
+	<key>keyEquivalent</key>
+	<string>@H</string>
+	<key>name</key>
+	<string>Insert Metadata</string>
+	<key>uuid</key>
+	<string>E7BAC238-2E0B-4578-9F58-2F48E7EC4DEA</string>
+</dict>
+</plist>

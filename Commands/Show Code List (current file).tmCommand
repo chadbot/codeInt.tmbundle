@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env python
+# encoding: utf-8
+"""
+TM_ListCodes.py
+
+Created on 2011-07-29.
+"""
+
+import sys
+import os
+import re
+
+filepath = os.environ["TM_FILEPATH"]
+f = open(filepath, "r")
+text = f.read()
+
+# clean tags and separate into list
+rawtags = re.findall("\[\[[^\]]*\]\]", text)
+
+# clean tags and separate into list of tags for each quote
+tags = []
+for i, j in enumerate(rawtags):
+    j = j.strip("[[]]")
+    j = j.split(",")
+    # tags.append([])
+    # remove white space
+    for x, y in enumerate(j):
+        tags.append(y.strip())
+
+tags = sorted(list(set(tags)))
+
+print "&lt;h3&gt;" + str(len(tags)) + " codes in current document:&lt;/h3&gt;"
+for word in tags:
+    print word, '&lt;br&gt;'</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@C</string>
+	<key>name</key>
+	<string>Show Code List (current file)</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.cInt</string>
+	<key>uuid</key>
+	<string>0EF59BF0-4A3E-4D4E-969E-C2118E931525</string>
+</dict>
+</plist>

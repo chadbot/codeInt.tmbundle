@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env python
+# encoding: utf-8
+# 
+# This script prompts the user for a keyword, then returns all quotes
+#   coded with that keyword.
+# 
+
+
+import os
+import re
+import subprocess
+
+# define parsing function
+def cIntParse(filepath):
+    """
+    Thiis file parses a coded interview into codes and quotes.
+    Returns dictionary of codes (keys), and (respondent, interview, quote) tuples
+    as values
+    """
+    import re
+    f = open(filepath, "r")
+    inter = f.read()
+    
+    # important metadata
+    # metadata appears in &lt;item&gt;: value' format
+    # respondent (required)
+    rSearch = re.search(r'(&lt;respondent&gt;:) (.*)', inter)
+    if rSearch:
+        respondent = rSearch.group(2)
+    else:
+        print "Respondent not found.  Please add appropriate metadata header."
+    # interview
+    intSearch = re.search(r'(&lt;interview&gt;:) (.*)', inter)
+    if intSearch:
+        interview = intSearch.group(2)
+    else:
+        interview = ""
+        
+    # lists of tags and quotes
+    rawtags = re.findall("\[\[[^\]]*\]\]", inter)
+    rawquotes = re.findall("{[^}]*}", inter)    
+    # clean tags and separate into list of tags for each quote
+    tags = []
+    for i, j in enumerate(rawtags):
+        j = j.strip("[[]]")
+        j = j.split(",")
+        tags.append([])
+        # remove white space
+        for x, y in enumerate(j):
+            tags[i].append(y.strip())
+    # clean quotes
+    quotes = []
+    for i in rawquotes:
+        i = i.strip("{ }")
+        quotes.append(i)
+    # tag, r, quote tuples
+    # list of respondent name, for zipping w/tags and quotes
+    rList = [respondent] * len(quotes)
+    intList = [interview] * len(quotes)
+    # zip into tuple
+    tagq = zip(tags, rList, intList, quotes)
+    # create dictionary of tags for each 
+    tagd = {}
+    for i in tagq:
+        for j in i[0]:
+            if tagd.has_key(j):
+                tagd[j].append((i[1], i[2], i[3]))
+            else:
+                tagd[j] = [(i[1], i[2], i[3])]
+    return tagd    
+
+
+# key variables
+path = os.environ["TM_DIRECTORY"]
+files = os.listdir(path)
+
+# set cocoaDialog path
+# if not working, change to your own cocoaDialog path
+# find path by typing 'which cocoadialog' at terminal
+cdpath = '/Applications/TextMate.app/Contents/SharedSupport/Support/bin/CocoaDialog.app/Contents/MacOS/cocoadialog'
+
+# cocoaDialog box for keyword search
+command = [cdpath, 'inputbox', '--title', 'Code Search', '--informative-text', 'Enter code to look up (leave blank for all codes): ', '--button1', 'Okay', '--button2', 'Cancel']
+p = subprocess.Popen(command, stdout=subprocess.PIPE)
+out, err = p.communicate()
+
+# strip other stuff out of text input
+keyword = out[2:-1]
+
+# assemble codes and quotes
+codes = {}
+for i in files:
+    codesTmp = cIntParse(path + "/" + i)
+    for k, v in codesTmp.iteritems():
+        if k in codes.keys():
+            for i in v:
+                codes[k].append(i)
+        else:
+            codes[k] = v
+
+if keyword == "":
+    # Header
+    print "&lt;h1&gt;Results for all codes:&lt;/h1&gt;"
+    for k in sorted(codes.keys()):
+        print "&lt;h2&gt;" + k + "&lt;/h2&gt;"
+        for i in codes[k]:
+            print "&lt;strong&gt;", i[0], "&lt;/strong&gt;&lt;br&gt;"
+            print "&lt;em&gt;", i[1], "&lt;/em&gt;&lt;br&gt;"
+            print i[2], "&lt;br&gt;&lt;br&gt;"
+elif keyword not in codes.keys():
+    print "&lt;h3&gt;Code &lt;em&gt;" + keyword + "&lt;/em&gt; not found.&lt;/h3&gt;"
+    
+else:
+    # Header
+    print "&lt;h1&gt;Results for code &lt;em&gt;" + keyword + "&lt;/em&gt;:&lt;/h1&gt;"
+    # print relevant quotes
+    for i in codes[keyword]:
+        print "&lt;strong&gt;", i[0], "&lt;/strong&gt;&lt;br&gt;"
+        print "&lt;em&gt;", i[1], "&lt;/em&gt;&lt;br&gt;"
+        print i[2], "&lt;br&gt;&lt;br&gt;"
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@K</string>
+	<key>name</key>
+	<string>Code Search</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.cInt</string>
+	<key>uuid</key>
+	<string>A551BAA4-8A90-49B9-8C62-305F585FC8F2</string>
+</dict>
+</plist>

@@ -1,0 +1,8 @@
+# Interview Metadata
+<respondent>: respondentName
+<interview>: interviewNumber
+<date>: ${TM_DATE}
+
+# Interview Content
+
+[Cut and paste your interview here.]

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>chad.borkenhagen@gmail.com</string>
+	<key>contactName</key>
+	<string>Chad Borkenhagen</string>
+	<key>name</key>
+	<string>Coded Interview (cInt)</string>
+	<key>description</key>
+	<string>A simple package to code interviews and easily look up coded content.</string>
+	<key>ordering</key>
+	<array>
+		<string>B0E0AA33-E28E-45FC-B966-5F5DB1862C27</string>
+		<string>CE2847A7-870A-443E-93CF-FC39D58E1F09</string>
+		<string>E7BAC238-2E0B-4578-9F58-2F48E7EC4DEA</string>
+		<string>0EF59BF0-4A3E-4D4E-969E-C2118E931525</string>
+		<string>EDAE1410-13CC-477C-9671-BBA9D4FC645C</string>
+		<string>A551BAA4-8A90-49B9-8C62-305F585FC8F2</string>
+		<string>4D431949-28F5-436B-A495-0D28A3288D10</string>
+	</array>
+	<key>uuid</key>
+	<string>2FAA180F-A795-4ED9-85EA-A7287894D78D</string>
+</dict>
+</plist>
