@@ -46,10 +46,7 @@ This inserts a template of metadata at the current cursor location. Note that me
 Notes
 -----
 * Files must include metadata headers for search and list commands to work properly.
-* Directory-wide searches require that all files in the directory be in cInt format, with proper metadata headers.  Files not following this format (including invisible files) will cause errors (see "Known Issues" section below).
 
 Known Issues
 ------------
 * Commands requiring input do not work in TM2.  This is because TM2 does not include cocoadialog, and I haven't bothered looking into the new method for raw input.
-* Directory-wide commands will fail if the directory contains subdirectories or invisible files (e.g., .DS_Store).  I'm sure this is easy to fix.
-* Search function is case-sensitive, and probably doesn't need to be.

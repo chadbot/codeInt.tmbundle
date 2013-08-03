@@ -18,12 +18,19 @@ import os
 import re
 
 path = os.environ["TM_DIRECTORY"]
-files = os.listdir(path)
+
+filelist = []
+
+for path, dirs, files in os.walk(path):
+    for f in files:
+        if f.startswith("."):
+            pass
+        else:
+         filelist.append(path + "/" + f)
 
 tags = []
-for i in files:
-    filepath = path + "/" + i
-    f = open(filepath, "r")
+for i in filelist:
+    f = open(i, "r")
     text = f.read()
     
     # clean tags and separate into list

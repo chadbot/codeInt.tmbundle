@@ -7,10 +7,10 @@
 	<key>command</key>
 	<string>#!/usr/bin/env python
 # encoding: utf-8
-# 
+#
 # This script prompts the user for a keyword, then returns all quotes
 #   coded with that keyword.
-# 
+#
 
 
 import os
@@ -27,7 +27,7 @@ def cIntParse(filepath):
     import re
     f = open(filepath, "r")
     inter = f.read()
-    
+
     # important metadata
     # metadata appears in &lt;item&gt;: value' format
     # respondent (required)
@@ -42,10 +42,10 @@ def cIntParse(filepath):
         interview = intSearch.group(2)
     else:
         interview = ""
-        
+
     # lists of tags and quotes
     rawtags = re.findall("\[\[[^\]]*\]\]", inter)
-    rawquotes = re.findall("{[^}]*}", inter)    
+    rawquotes = re.findall("{[^}]*}", inter)
     # clean tags and separate into list of tags for each quote
     tags = []
     for i, j in enumerate(rawtags):
@@ -66,7 +66,7 @@ def cIntParse(filepath):
     intList = [interview] * len(quotes)
     # zip into tuple
     tagq = zip(tags, rList, intList, quotes)
-    # create dictionary of tags for each 
+    # create dictionary of tags for each
     tagd = {}
     for i in tagq:
         for j in i[0]:
@@ -74,12 +74,18 @@ def cIntParse(filepath):
                 tagd[j].append((i[1], i[2], i[3]))
             else:
                 tagd[j] = [(i[1], i[2], i[3])]
-    return tagd    
+    return tagd
 
 
 # key variables
 path = os.environ["TM_DIRECTORY"]
-files = os.listdir(path)
+filelist = []
+for path, dirs, files in os.walk(path):
+    for f in files:
+        if f.startswith("."):
+            pass
+        else:
+         filelist.append(path + "/" + f)
 
 # set cocoaDialog path
 # if not working, change to your own cocoaDialog path
@@ -96,8 +102,8 @@ keyword = out[2:-1]
 
 # assemble codes and quotes
 codes = {}
-for i in files:
-    codesTmp = cIntParse(path + "/" + i)
+for i in filelist:
+    codesTmp = cIntParse(i)
     for k, v in codesTmp.iteritems():
         if k in codes.keys():
             for i in v:
@@ -116,7 +122,7 @@ if keyword == "":
             print i[2], "&lt;br&gt;&lt;br&gt;"
 elif keyword not in codes.keys():
     print "&lt;h3&gt;Code &lt;em&gt;" + keyword + "&lt;/em&gt; not found.&lt;/h3&gt;"
-    
+
 else:
     # Header
     print "&lt;h1&gt;Results for code &lt;em&gt;" + keyword + "&lt;/em&gt;:&lt;/h1&gt;"
